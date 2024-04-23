@@ -57,25 +57,6 @@
 #define _XTAL_FREQ 4000000                 // Fosc  frequency for _delay()  library
 #define FCY    _XTAL_FREQ/40
 
-#define ADC PORTAbits.RA0
-
-//phase shifter LEs
-#define P_LE1 PORTAbits.RA1
-#define P_LE2 PORTAbits.RA2
-#define P_LE3 PORTAbits.RA3
-#define P_LE4 PORTAbits.RA4
-
-//phase shifter bits
-#define PS180 PORTAbits.RA5
-#define PS90 PORTEbits.RE0
-#define PS45 PORTEbits.RE1
-#define PS22 PORTEbits.RE2
-#define PS11 PORTAbits.RA7
-#define PS5 PORTAbits.RA6
-#define PS2 PORTCbits.RC0
-#define PS1 PORTCbits.RC1
-#define OPT PORTCbits.RC2
-
 //attenuator stuff 
 #define A_SP PORTBbits.RB7
 #define A_LE1 PORTBbits.RB6
@@ -84,195 +65,31 @@
 #define A_LE4 PORTBbits.RB3
 #define SP_data PORTBbits.RB2
 
-//other stuff
-#define ButtonIn PORTDbits.RD0
-#define ButtonOut PORTDbits.RD1
-#define R_LED PORTDbits.RD2
-#define G_LED PORTDbits.RD3
-
 //--------------------------------------------- Functions --------------------------------------------------------------------------
 void SPI1_Init()
 {
     A_SP = 1; // set to serial 
-    SPI1CON0 = 0b00000110;
+    SPI1CON0 = 0b00000111;
     SPI1CON1 = 0b00000000;
     SPI1CON2 = 0b00000010;
     SPI1CLK = 0x0;
     SPI1BAUD = 0x7;
     SPI1CON0bits.EN = 1; // Enable
-    
-}
-
-void Beam_1 () //106.8, 267.1, 160.3, 194
-{
-    // phase shifter 1
-    PS90 = 1; PS11 = 1; PS5 = 1; __delay_ms(500);
-    P_LE1 = 1; __delay_ms(500); 
-    P_LE1 = 0; __delay_ms(500);
-    PS90 = 0; PS11 = 0; PS5 = 0; __delay_ms(500);
-    
-    // phase shifter 2
-    PS180 = 1; PS45 = 1; PS22 = 1; PS11 = 1; PS5 = 1; PS2 = 1; __delay_ms(500);
-    P_LE2 = 1; __delay_ms(500); 
-    P_LE2 = 0; __delay_ms(500);
-    PS180 = 0; PS45 = 0; PS22 = 0; PS11 = 0; PS5 = 0; PS2 = 0; __delay_ms(500);
-    
-    // phase shifter 3
-    PS90 = 1; PS45 = 1; PS22 = 1; PS2 = 1; __delay_ms(500);
-    P_LE3 = 1; __delay_ms(500); 
-    P_LE3 = 0; __delay_ms(500);
-    PS90 = 0; PS45 = 0; PS22 = 0; PS2 = 0; __delay_ms(500);
-    
-    // phase shifter 4
-    PS180 = 1; PS11 = 1; PS2 = 1; __delay_ms(500);
-    P_LE4 = 1; __delay_ms(500); 
-    P_LE4 = 0; __delay_ms(500);
-    PS180 = 0; PS11 = 0; PS2 = 0; __delay_ms(500);
-}
-
-void Beam_2 () //194, 160.3, 267.1, 106.8
-{
-    // phase shifter 1
-    PS180 = 1; PS11 = 1; PS2 = 1; __delay_ms(500);
-    P_LE1 = 1; __delay_ms(500); 
-    P_LE1 = 0; __delay_ms(500);
-    PS180 = 0; PS11 = 0; PS2 = 0; __delay_ms(500);
-    
-    // phase shifter 2
-    PS90 = 1; PS45 = 1; PS22 = 1; PS2 = 1; __delay_ms(500);
-    P_LE2 = 1; __delay_ms(500); 
-    P_LE2 = 0; __delay_ms(500);
-    PS90 = 0; PS45 = 0; PS22 = 0; PS2 = 0; __delay_ms(500);
-    
-    // phase shifter 3
-    PS180 = 1; PS45 = 1; PS22 = 1; PS11 = 1; PS5 = 1; PS2 = 1; __delay_ms(500);
-    P_LE3 = 1; __delay_ms(500); 
-    P_LE3 = 0; __delay_ms(500);
-    PS180 = 0; PS45 = 0; PS22 = 0; PS11 = 0; PS5 = 0; PS2 = 0; __delay_ms(500);
-    
-    // phase shifter 4
-    PS90 = 1; PS11 = 1; PS5 = 1; __delay_ms(500);
-    P_LE4 = 1; __delay_ms(500); 
-    P_LE4 = 0; __delay_ms(500);
-    PS90 = 0; PS11 = 0; PS5 = 0; __delay_ms(500);
-}
-
-void Beam_3 () //182.8, 61.8, 334.6, 262.9
-{
-    // phase shifter 1
-    PS180 = 1; PS2 = 1; __delay_ms(500);
-    P_LE1 = 1; __delay_ms(500); 
-    P_LE1 = 0; __delay_ms(500);
-    PS180 = 0; PS2 = 0; __delay_ms(500);
-    
-    // phase shifter 2
-    PS45 = 1; PS11 = 1; PS5 = 1; __delay_ms(500);
-    P_LE2 = 1; __delay_ms(500); 
-    P_LE2 = 0; __delay_ms(500);
-    PS45 = 0; PS11 = 0; PS5 = 0; __delay_ms(500);
-    
-    // phase shifter 3
-    PS180 = 1; PS90 = 1; PS45 = 1; PS11 = 1; PS5 = 1; PS2 = 1; __delay_ms(500);
-    P_LE3 = 1; __delay_ms(500); 
-    P_LE3 = 0; __delay_ms(500);
-    PS180 = 0; PS90 = 0; PS45 = 0; PS11 = 0; PS5 = 0; PS2 = 0; __delay_ms(500);
-    
-    // phase shifter 4
-    PS180 = 1; PS45 = 1; PS22 = 1; PS11 = 1; PS2 = 1; PS1 = 1; __delay_ms(500);
-    P_LE4 = 1; __delay_ms(500); 
-    P_LE4 = 0; __delay_ms(500);
-    PS180 = 0; PS45 = 0; PS22 = 0; PS11 = 0; PS2 = 0; PS1 = 0; __delay_ms(500);
-}
-
-void Beam_4 () //246.0, 243.2, 201.0, 209.5
-{
-    // phase shifter 1
-    PS180 = 1; PS45 = 1; PS11 = 1; PS5 = 1; PS2 = 1; PS1 = 1; __delay_ms(500);
-    P_LE1 = 1; __delay_ms(500); 
-    P_LE1 = 0; __delay_ms(500);
-    PS180 = 0; PS45 = 0; PS11 = 0; PS5 = 0; PS2 = 0; PS1 = 0; __delay_ms(500);
-    
-    // phase shifter 2
-    PS180 = 1; PS45 = 1; PS11 = 1; PS5 = 1; PS1 = 1; __delay_ms(500);
-    P_LE2 = 1; __delay_ms(500); 
-    P_LE2 = 0; __delay_ms(500);
-    PS180 = 0; PS45 = 0; PS11 = 0; PS5 = 0; PS1 = 0; __delay_ms(500);
-    
-    // phase shifter 3
-    PS180 = 1; PS11 = 1; PS5 = 1; PS2 = 1; PS1 = 1; __delay_ms(500);
-    P_LE3 = 1; __delay_ms(500); 
-    P_LE3 = 0; __delay_ms(500);
-    PS180 = 0; PS11 = 0; PS5 = 0; PS2 = 0; PS1 = 0; __delay_ms(500);
-    
-    // phase shifter 4
-    PS180 = 1; PS22 = 1; PS5 = 1; PS1 = 1; __delay_ms(500);
-    P_LE4 = 1; __delay_ms(500); 
-    P_LE4 = 0; __delay_ms(500);
-    PS180 = 0; PS22 = 0; PS5 = 0; PS1 = 0; __delay_ms(500);
-}
-
-void Beam_5 () //209.5, 201.0, 243.2, 246.0
-{
-    // phase shifter 1
-    PS180 = 1; PS22 = 1; PS5 = 1; PS1 = 1; __delay_ms(500);
-    P_LE1 = 1; __delay_ms(500); 
-    P_LE1 = 0; __delay_ms(500);
-    PS180 = 0; PS22 = 0; PS5 = 0; PS1 = 0; __delay_ms(500);
-    
-    // phase shifter 2
-    PS180 = 1; PS11 = 1; PS5 = 1; PS2 = 1; PS1 = 1; __delay_ms(500);
-    P_LE2 = 1; __delay_ms(500); 
-    P_LE2 = 0; __delay_ms(500);
-    PS180 = 0; PS11 = 0; PS5 = 0; PS2 = 0; PS1 = 0; __delay_ms(500);
-    
-    // phase shifter 3
-    PS180 = 1; PS45 = 1; PS11 = 1; PS5 = 1; PS1 = 1; __delay_ms(500);
-    P_LE3 = 1; __delay_ms(500); 
-    P_LE3 = 0; __delay_ms(500);
-    PS180 = 0; PS45 = 0; PS11 = 0; PS5 = 0; PS1 = 0; __delay_ms(500);
-    
-    // phase shifter 4
-    PS180 = 1; PS45 = 1; PS11 = 1; PS5 = 1; PS2 = 1; PS1 = 1; __delay_ms(500);
-    P_LE4 = 1; __delay_ms(500); 
-    P_LE4 = 0; __delay_ms(500);
-    PS180 = 0; PS45 = 0; PS11 = 0; PS5 = 0; PS2 = 0; PS1 = 0; __delay_ms(500);
-}
-
-void Beam_6 () //262.9, 334.6, 61.8, 182.8
-{
-    // phase shifter 1
-    PS180 = 1; PS45 = 1; PS22 = 1; PS11 = 1; PS2 = 1; PS1 = 1; __delay_ms(500);
-    P_LE1 = 1; __delay_ms(500); 
-    P_LE1 = 0; __delay_ms(500);
-    PS180 = 0; PS45 = 0; PS22 = 0; PS11 = 0; PS2 = 0; PS1 = 0; __delay_ms(500);
-    
-    // phase shifter 2
-    PS180 = 1; PS90 = 1; PS45 = 1; PS11 = 1; PS5 = 1; PS2 = 1; __delay_ms(500);
-    P_LE2 = 1; __delay_ms(500); 
-    P_LE2 = 0; __delay_ms(500);
-    PS180 = 0; PS90 = 0; PS45 = 0; PS11 = 0; PS5 = 0; PS2 = 0; __delay_ms(500);
-    
-    // phase shifter 3
-    PS45 = 1; PS11 = 1; PS5 = 1; __delay_ms(500);
-    P_LE3 = 1; __delay_ms(500); 
-    P_LE3 = 0; __delay_ms(500);
-    PS45 = 0; PS11 = 0; PS5 = 0; __delay_ms(500);
-    
-    // phase shifter 4
-    PS180 = 1; PS2 = 1; __delay_ms(500);
-    P_LE4 = 1; __delay_ms(500); 
-    P_LE4 = 0; __delay_ms(500);
-    PS180 = 0; PS2 = 0; __delay_ms(500);
 }
 
 uint8_t SPI1_Exchange8bit(uint8_t data)
 {
- uint8_t read;
+ //uint8_t read;
+ SPI1STATUSbits.CLRBF = 1;    
+ SPI1TXB = 0;   
  SPI1TCNTL = 1; //One byte transfer count
  SPI1TXB = data;
- while(SPI1CON2bits.BUSY == 1); 
- read = SPI1RXB;
- return (read);
+ //while(SPI1CON2bits.BUSY == 1); 
+ //read = SPI1RXB;
+ //return (read);
+ __delay_ms(1000);
+ PS5 = 1;
+ //while(SPI1CON2 >= 128); // Wait for transmission to complete
  
 }
 
@@ -288,12 +105,8 @@ void main() {
     //RB3PPS = 0x1E;  // SPI clk set to B3
     //RB4PPS = 0x1F;  // SPI data outset to B4    
     SPI1SDIPPS = 0b01001;  // Changes the SPI output to RB2
-    PORTA = 0; LATA = 0; ANSELA = 0;  TRISA = 0b00000001; // PORTA 0 input / 1-7 outputs
     PORTB = 0; LATB = 0; ANSELB = 0;  TRISB = 0b00000000; // PORTB outputs
-    PORTC = 0; LATC = 0; ANSELC = 0;  TRISC = 0b00000000; // PORTC outputs
-    PORTD = 0; LATD = 0; ANSELD = 0;  TRISD = 0b00000001; // PORTD 0 input / 1-7 outputs 
-    PORTE = 0; LATE = 0; ANSELE = 0;  TRISE = 0b1000; // PORTE 0-2 outputs
-    
+       
     //start with initialization
     SPI1_Init();
     
